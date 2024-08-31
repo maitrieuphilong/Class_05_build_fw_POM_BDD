@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>buildFW-POM-BDD</groupId>
-  <artifactId>buildFW-POM-BDD</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  
-   <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>buildFW-POM-BDD</groupId>
+	<artifactId>buildFW-POM-BDD</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,7 +20,7 @@
 		<!--Default value-->
 		<environment>dev</environment>
 	</properties>
-	
+
 	<dependencies>
 		<!-- Selenium Java -->
 		<dependency>
@@ -62,19 +64,19 @@
 			<artifactId>cucumber-gherkin</artifactId>
 			<version>${cucumber.version}</version>
 		</dependency>
-		
-		<dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-		
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
@@ -82,5 +84,81 @@
 		</dependency>
 
 	</dependencies>
-  
+
+
+	<build>
+		<plugins>
+			<!-- Compile code -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- Run testcase/ test suite -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+
+				<!-- Run a testcase/ test suite -->
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<includes>
+						<include>**/*/TestRunner.java</include>
+					</includes>
+				</configuration>
+
+				<!-- Run Parallel max 3 testcase/ test suite 
+				<configuration>
+					<parallel>classes</parallel>
+					<forkMode>perthread</forkMode>
+					<threadCount>3</threadCount>
+					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+					<testFailureIgnore>true</testFailureIgnore>
+					<includes>
+						<include>**/*TestRunner.java</include>
+					</includes>
+				</configuration> -->
+
+
+			</plugin>
+
+			<!-- Generate report -->
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>3.20.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>CUCUMBER BANK GURU</projectName>
+							<outputDirectory>
+								${project.build.directory}/site/cucumber-reporting</outputDirectory>
+							<inputDirectory>${project.build.directory}/site</inputDirectory>
+							<jsonFiles>
+								<param>**/*.json</param>
+							</jsonFiles>
+							<!-- <enableFlashCharts>true</enableFlashCharts> -->
+							<!-- <skippedFails>true</skippedFails> -->
+							<checkBuildResult>false</checkBuildResult>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
 </project>
