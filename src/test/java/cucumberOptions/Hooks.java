@@ -4,6 +4,7 @@ import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
@@ -25,12 +26,15 @@ public class Hooks {
                 if (browser == null) {
                     browser = System.getenv("BROWSER");
                     if (browser == null) {
-                        browser = "firefox";
+                        browser = "chrome";
                     }
                 }
                 switch (browser) {
                     case "chrome":
-                        driver = new ChromeDriver();
+//                        driver = new ChromeDriver();
+                    	ChromeOptions options = new ChromeOptions();
+                    	options.addArguments("--headless=new");
+                    	driver = new ChromeDriver(options);
                         break;
                     case "firefox":
                         driver = new FirefoxDriver();
